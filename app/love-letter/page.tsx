@@ -1,0 +1,102 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+import gsap from "gsap"
+import Link from "next/link"
+
+export default function LoveLetterPage() {
+  const letterRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (letterRef.current) {
+      gsap.fromTo(letterRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
+    }
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 py-12 px-4">
+      <Link href="/">
+        <button className="mb-8 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300">
+          ← Back Home
+        </button>
+      </Link>
+
+      <div
+        ref={letterRef}
+        className="max-w-2xl mx-auto bg-gradient-to-br from-amber-100 to-yellow-100 rounded-lg shadow-2xl p-12 border-4 border-amber-200 relative"
+        style={{
+          backgroundImage:
+            "url('data:image/svg+xml,%3Csvg width=%22100%22 height=%22100%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M0 0h100v100H0z%22 fill=%22%23fef3c7%22/%3E%3Cpath d=%22M0 10h100M0 20h100M0 30h100M0 40h100M0 50h100M0 60h100M0 70h100M0 80h100M0 90h100%22 stroke=%22%23ddd6c9%22 strokeWidth=%220.5%22/%3E%3C/svg%3E')",
+          backgroundSize: "100% 10px",
+        }}
+      >
+        {/* Letter header */}
+        <div className="text-center mb-12 pb-8 border-b-2 border-amber-300">
+          <div className="text-6xl mb-4">💌</div>
+          <h1 className="text-4xl font-bold text-amber-900 mb-2">A Special Letter For You</h1>
+          <p className="text-amber-700 italic">On Your Special Day</p>
+        </div>
+
+        {/* Letter content */}
+        <div className="space-y-6 text-amber-900 leading-relaxed">
+          <p className="text-lg">Dear Birthday Star,</p>
+
+          <p>
+            First of all, Happy Birthday, you amazing human being! 🎉
+I still can’t believe another year has flown by, and somehow, you’ve managed to become even more awesome than before. How do you do that? Seriously, teach me your ways!
+          </p>
+
+          <p>
+           I hope you take a moment to see how much you’ve grown and how many lives you’ve touched, just by being you. You have this rare ability to make things better — whether it’s a bad day, an awkward silence, or a tough situation. You handle it all with that calm strength and a smile that somehow makes everything lighter.
+          </p>
+
+          <p>
+            I still remember the countless random talks, the shared jokes that no one else gets, and those times we just sat and laughed until it hurt. Those are the memories I wouldn’t trade for anything.
+          </p>
+
+          <p>
+            Here’s to another year of adventures, growth, and all the things that make life feel meaningful.
+          </p>
+
+          <p>
+            May this year bring you endless joy, new adventures, unexpected blessings, and moments that take your breath
+            away. May you find strength in challenges, wisdom in experiences, and peace in knowing that you are truly
+            special.
+          </p>
+
+          <p>
+            Thank you for being you. Thank you for the light you bring into our lives. Thank you for making the world a
+            better place simply by existing in it.
+          </p>
+
+          <p className="pt-6">
+            With all my love and warmest wishes,
+            
+            <br />
+            <span className="text-2xl">💝</span>
+            <span className="block mt-2 font-semibold">RD</span>
+          </p>
+
+          <p className="text-center text-sm text-amber-700 italic pt-8">
+            "Another year older, another year wiser, another year more amazing."
+          </p>
+        </div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-4 right-4 text-3xl">🎉</div>
+        <div className="absolute bottom-4 left-4 text-3xl">🎂</div>
+        <div className="absolute top-1/2 right-2 text-2xl">🎈</div>
+        <div className="absolute top-1/4 left-2 text-2xl">🎁</div>
+      </div>
+
+      {/* Back button */}
+      <div className="text-center mt-12">
+        <Link href="/">
+          <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105">
+            Return to Celebration
+          </button>
+        </Link>
+      </div>
+    </div>
+  )
+}
