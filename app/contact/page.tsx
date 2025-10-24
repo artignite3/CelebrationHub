@@ -1,13 +1,14 @@
+// ...existing code...
 "use client"
 
 import { useState, useEffect } from "react"
 import Navigation from "@/components/navigation"
 
-export default function ContactPage(): JSX.Element {
+export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
 
-  // debug: confirm imports are components at runtime
   useEffect(() => {
+    // debug: confirm imports are components at runtime
     // eslint-disable-next-line no-console
     console.log("Navigation import type:", typeof Navigation, Navigation)
   }, [])
@@ -78,3 +79,4 @@ export default function ContactPage(): JSX.Element {
     </div>
   )
 }
+// ...existing code...
