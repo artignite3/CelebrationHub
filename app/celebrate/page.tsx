@@ -5,6 +5,7 @@ import Navigation from "@/components/navigation"
 import CakeAnimation from "../../components/cake-animation"
 import Confetti from "@/components/confetti"
 import PrismaticBurst from "@/components/prismatic-burst"
+import { celebrate, name } from "@/lib/siteConfig"
 
 export default function CelebratePage() {
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -40,39 +41,27 @@ export default function CelebratePage() {
           <CakeAnimation />
 
           <h1 className="relative z-2 text-7xl md:text-8xl font-bold text-white mt-8 mb-4 text-balance">
-            Happy{" "}
+            {celebrate.title}{" "}
             <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-red-500 text-transparent bg-clip-text">
               Birthday! {" "}
             </span>
             <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-500 text-transparent bg-clip-text">
-              Pankhudi! 
+              {name.nickname || name.first}!
             </span>
           </h1>
 
           <p className="relative z-2 text-2xl text-blue-200 mb-8 leading-relaxed">
-            Today is your special day! Celebrate with joy, laughter, and wonderful memories. You deserve all the
-            happiness in the world.
+            {celebrate.description}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="bg-blue-900/30 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm">
-              <div className="text-4xl mb-3">🎁</div>
-              <h3 className="text-xl font-bold text-white mb-2">Gifts</h3>
-              <p className="text-blue-200">Unwrap the joy of giving and receiving</p>
-            </div>
-
-            <div className="bg-blue-900/30 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm">
-              <div className="text-4xl mb-3">🎉</div>
-              <h3 className="text-xl font-bold text-white mb-2">Party</h3>
-              <p className="text-blue-200">Celebrate with friends and loved ones</p>
-            </div>
-
-            <div className="bg-blue-900/30 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm">
-              <div className="text-4xl mb-3">✨</div>
-              <h3 className="text-xl font-bold text-white mb-2">Commit</h3>
-              <p className="text-blue-200">BF bana le ab, Kab tak Single Rahegi</p>
-            </div>
-            
+            {celebrate.giftBoxes.map((box, index) => (
+              <div key={index} className="bg-blue-900/30 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm">
+                <div className="text-4xl mb-3">{box.icon}</div>
+                <h3 className="text-xl font-bold text-white mb-2">{box.title}</h3>
+                <p className="text-blue-200">{box.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

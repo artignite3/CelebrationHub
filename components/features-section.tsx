@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Link from "next/link"
+import { features } from "@/lib/siteConfig"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -31,7 +32,7 @@ export default function FeaturesSection() {
       )
 
       gsap.fromTo(
-        featuresRef.current.querySelector(".click-me-button"),
+        featuresRef.current.querySelector(".cta-button"),
         { opacity: 0, scale: 0.8 },
         {
           opacity: 1,
@@ -52,19 +53,27 @@ export default function FeaturesSection() {
   }, [])
 
   return (
-    <section ref={featuresRef} id="celebrate" className="relative py-32 px-4 bg-black">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-6xl font-bold text-white mb-12 text-balance">What's So Special Today</h2>
-        <p className="text-xl text-blue-300 mb-16 max-w-2xl mx-auto leading-relaxed">
-          Today marks another year of your incredible journey. It's a day to celebrate who you are, the impact you've
-          made, and all the beautiful moments yet to come. Let's make this day unforgettable.
+    <section
+      ref={featuresRef}
+      id="features"
+      className="py-32 px-4 bg-gradient-to-b from-black via-slate-900 to-black"
+    >
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-6xl md:text-7xl font-bold text-white mb-4 text-center text-balance">
+          {features.title}
+        </h2>
+
+        <p className="text-xl text-blue-200 text-center mb-16 max-w-3xl mx-auto">
+          {features.description}
         </p>
 
-        <Link href="/love-letter">
-          <button className="click-me-button px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105 text-lg shadow-lg shadow-cyan-500/50">
-            Click Me 💌
-          </button>
-        </Link>
+        <div className="flex justify-center">
+          <Link href={features.buttonLink}
+            className="inline-block px-8 py-4 bg-cyan-500 hover:bg-cyan-600 text-black font-bold rounded-lg transition-all duration-300 transform hover:scale-105 text-lg cta-button"
+          >
+            {features.buttonText}
+          </Link>
+        </div>
       </div>
     </section>
   )

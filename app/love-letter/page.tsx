@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import Link from "next/link"
+import { loveLetter, name } from "@/lib/siteConfig"
 
 export default function LoveLetterPage() {
   const letterRef = useRef<HTMLDivElement>(null)
@@ -33,52 +34,30 @@ export default function LoveLetterPage() {
         {/* Letter header */}
         <div className="text-center mb-12 pb-8 border-b-2 border-amber-300">
           <div className="text-6xl mb-4">💌</div>
-          <h1 className="text-4xl font-bold text-amber-900 mb-2">A Special Letter For You</h1>
-          <p className="text-amber-700 italic">On Your Special Day</p>
+          <h1 className="text-4xl font-bold text-amber-900 mb-2">{loveLetter.title}</h1>
+          <p className="text-amber-700 italic">{loveLetter.subtitle}</p>
         </div>
 
         {/* Letter content */}
         <div className="space-y-6 text-amber-900 leading-relaxed">
-          <p className="text-lg">Dear Birthday Star,</p>
+          <p className="text-lg">{loveLetter.opening}</p>
 
-          <p>
-            First of all, Happy Birthday, you amazing human being! 🎉
-I still can’t believe another year has flown by, and somehow, you’ve managed to become even more awesome than before. How do you do that? Seriously, teach me your ways!
-          </p>
-
-          <p>
-           I hope you take a moment to see how much you’ve grown and how many lives you’ve touched, just by being you. You have this rare ability to make things better — whether it’s a bad day, an awkward silence, or a tough situation. You handle it all with that calm strength and a smile that somehow makes everything lighter.
-          </p>
-
-          <p>
-            I still remember the countless random talks, the shared jokes that no one else gets, and those times we just sat and laughed until it hurt. Those are the memories I wouldn’t trade for anything.
-          </p>
-
-          <p>
-            Here’s to another year of adventures, growth, and all the things that make life feel meaningful.
-          </p>
-
-          <p>
-            May this year bring you endless joy, new adventures, unexpected blessings, and moments that take your breath
-            away. May you find strength in challenges, wisdom in experiences, and peace in knowing that you are truly
-            special.
-          </p>
-
-          <p>
-            Thank you for being you. Thank you for the light you bring into our lives. Thank you for making the world a
-            better place simply by existing in it.
-          </p>
+          {loveLetter.paragraphs.map((paragraph, index) => (
+            <p key={index}>
+              {paragraph}
+            </p>
+          ))}
 
           <p className="pt-6">
-            With all my love and warmest wishes,
-            
+            {loveLetter.closing}
+
             <br />
-            <span className="text-2xl">💝</span>
-            <span className="block mt-2 font-semibold">RD</span>
+            <span className="text-2xl">{loveLetter.senderEmoji}</span>
+            <span className="block mt-2 font-semibold">{loveLetter.senderName}</span>
           </p>
 
           <p className="text-center text-sm text-amber-700 italic pt-8">
-            "Another year older, another year wiser, another year more amazing."
+            "{loveLetter.quote}"
           </p>
         </div>
 

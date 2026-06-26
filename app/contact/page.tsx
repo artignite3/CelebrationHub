@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react"
 import Navigation from "@/components/navigation"
+import { contact } from "@/lib/siteConfig"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
@@ -15,7 +16,7 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    alert("Thank you for your message! 🎉")
+    alert(contact.successMessage)
     setFormData({ name: "", email: "", message: "" })
   }
 
@@ -29,7 +30,9 @@ export default function ContactPage() {
             Get in <span className="text-cyan-400">Touch</span>
           </h1>
 
-          <p className="text-xl text-blue-200 text-center mb-12">Share your birthday wishes and special messages</p>
+          <p className="text-xl text-blue-200 text-center mb-12">
+            {contact.description}
+          </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -39,7 +42,7 @@ export default function ContactPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full bg-blue-900/30 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-500"
-                placeholder="Your name"
+                placeholder={contact.formPlaceholders.name}
                 required
               />
             </div>
@@ -51,7 +54,7 @@ export default function ContactPage() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-blue-900/30 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-500"
-                placeholder="your@email.com"
+                placeholder={contact.formPlaceholders.email}
                 required
               />
             </div>
@@ -62,7 +65,7 @@ export default function ContactPage() {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full bg-blue-900/30 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-500 h-32 resize-none"
-                placeholder="Your birthday wishes..."
+                placeholder={contact.formPlaceholders.message}
                 required
               />
             </div>
@@ -71,7 +74,7 @@ export default function ContactPage() {
               type="submit"
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
             >
-              Send Wishes 🎉
+              {contact.submitButtonText}
             </button>
           </form>
         </div>

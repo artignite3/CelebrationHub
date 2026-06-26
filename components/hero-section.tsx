@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import PrismaticBurst from "./prismatic-burst"
+import { name, hero } from "@/lib/siteConfig"
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -43,19 +44,19 @@ export default function HeroSection() {
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <div className="mb-6 inline-block text-6xl">🎉</div>
         <h1 className="text-7xl md:text-8xl font-bold text-white mb-4 text-balance">
-          Happy <span className="text-cyan-400">Birthday {""}</span>
+          {hero.greeting} <span className="text-cyan-400">Birthday {""}</span>
           <span className="bg-gradient-to-r from-red-400 via-orange-300 to-red-500 text-transparent bg-clip-text">
-              Pankhudi! 
+              {name.first}!
             </span>
         </h1>
         <p className="text-2xl md:text-3xl text-blue-200 mb-8 text-balance font-light">
-          Enjoy This Special Surprise Made Just For You!{" "}
+          {hero.celebrationMessage}{" "}
         </p>
         <a
           href="#gallery"
           className="inline-block px-8 py-4 bg-cyan-500 hover:bg-cyan-600 text-black font-bold rounded-lg transition-all duration-300 transform hover:scale-105 text-lg"
         >
-          Explore Memories 📸
+          {hero.exploreButtonText}
         </a>
       </div>
     </section>

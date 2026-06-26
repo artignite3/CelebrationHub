@@ -3,23 +3,16 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
+import { navBrand, navItems } from "@/lib/siteConfig"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
-
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "Celebrate", href: "/celebrate" },
-    { label: "Gallery", href: "/#gallery" },
-    { label: "Best Moments", href: "/best-moments" },
-    { label: "Contact", href: "/contact" },
-  ]
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-cyan-500/20">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="text-2xl font-bold text-cyan-400">
-          🎂 Birthday
+          {navBrand}
         </Link>
 
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white">
