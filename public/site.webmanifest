@@ -1,0 +1,16 @@
+{
+  "name": "Birthday Celebration",
+  "short_name": "Birthday",
+  "description": "A beautiful birthday celebration website featuring interactive 3D gallery, heartfelt messages, and memorable moments",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

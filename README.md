@@ -1,244 +1,143 @@
-# 🎂 Happy Birthday Pankhudi! - A Surprise Birthday Website
+# 🎉 CelebrationHub: A Customizable Celebration Website Template
 
-A beautiful, interactive birthday celebration website created as a special surprise for Pankhudi. This Next.js application features animations, music, photo galleries, and heartfelt messages to make her birthday extra special.
+A beautiful, interactive celebration website template perfect for birthdays, anniversaries, and special occasions. Built with Next.js, Tailwind CSS, and GSAP, this template features animations, music, photo galleries, and heartfelt messages to create memorable digital experiences.
 
-![Birthday Website Preview](public/og-image.png) <!-- You can add an Og image later -->
+![Celebration Website Preview](public/og-image.jpg) <!-- You can add an OG image -->
 
-## 🎉 Features
+## ✨ Features
 
-- **🎵 Birthday Music**: Playful birthday melody that plays throughout the celebration
+- **🎵 Background Music**: Play celebration music throughout the experience
 - **🎨 Interactive 3D Gallery**: Explore memories in a beautiful 3D dome gallery with drag-to-rotate functionality
-- **🎂 Celebration Page**: Animated cake and confetti for the ultimate birthday experience
-- **💌 Love Letter**: A heartfelt personal message expressing appreciation and love
-- **🏆 Best Moments**: Special memories and milestones highlighted in beautiful cards
-- **💌 Contact Form**: Send birthday wishes and special messages
-- **✨ Smooth Animations**: Powered by GSAP for fluid, engaging animations
+- **🎉 Celebration Page**: Animated celebration elements (cake, confetti, fireworks, etc.)
+- **💌 Personal Messages**: Customizable heartfelt message section (love letter, anniversary note, etc.)
+- **🏆 Highlights Section**: Showcase special moments, milestones, and achievements in beautiful cards
+- **💌 Contact Form**: Allow visitors to send messages, wishes, or RSVPs
+- **✨ Smooth Animations**: Powered by GSAP (GreenSock Animation Platform) for fluid, engaging animations
 - **📱 Fully Responsive**: Looks great on all devices from mobile to desktop
+- **⚙️ Easy Customization**: Centralized configuration via `siteConfig.ts` - no need to touch component code
 
-## 🏗️ Tech Stack
+## 🛠️ Tech Stack
 
 - **Framework**: [Next.js 13](https://nextjs.org) (App Router)
-- **Styling**: Tailwind CSS
+- **Styling**: [Tailwind CSS](https://tailwindcss.com)
 - **Animations**: [GSAP (GreenSock Animation Platform)](https://greensock.com/gsap/)
-- **3D Gallery**: Custom 3D dome gallery component
+- **3D Graphics**: Custom 3D dome implementation using [OGL](https://github.com/oframe/ogl)
 - **Icons**: [Lucide React](https://lucide.dev)
-- **Fonts**: [Geist Font](https://vercel.com/font) (Vercel's official font)
-- **Deployment**: Vercel (recommended)
+- **Icons**: [Lucide React](https://lucide.dev)
+- **Testing**: Jest & React Testing Library
+- **Language**: TypeScript
 
-## 📁 Project Structure
+## 🛠️ How to Customize
 
-```
-birthday/
-├── app/
-│   ├── layout.tsx              # Root layout with fonts and metadata
-│   ├── page.tsx                # Home page with birthday greeting
-│   ├── celebrate/              # Celebration page with cake animation
-│   ├── gallery/                # Image gallery section
-│   ├── best-moments/           # Special memories showcase
-│   ├── love-letter/            # Heartfelt personal message
-│   ├── contact/                # Contact form for birthday wishes
-│   └── globals.css             # Global styles
-├── components/
-│   ├── navigation.tsx          # Site navigation
-│   ├── hero-section.tsx        # Animated hero section
-│   ├── gallery-section.tsx     # Interactive 3D gallery
-│   ├── cake-animation.tsx      # Birthday cake animation
-│   ├── confetti.tsx            # Celebration confetti effect
-│   ├── dome-gallery.tsx        # 3D photo dome gallery
-│   ├── light-rays.tsx          # Animated light rays effect
-│   ├── prismatic-burst.tsx     # Prismatic light burst effect
-│   ├── celebration-popup.tsx   # Celebration popup modal
-│   ├── best-moments-card.tsx   # Memory card component
-│   └── footer-section.tsx      # Site footer
-├── public/
-│   ├── data/
-│   │   ├── music/              # Birthday music (1.mp3)
-│   │   └── pic/                # Birthday photos (1.jpg - 21.jpg)
-│   └── ...                     # SVG icons and illustrations
-├── styles/                     # Additional styling if needed
-└── public/                     # Static assets
-```
+All customizable content is located in `/lib/siteConfig.ts`. Simply update the values in this file to personalize the site for your occasion:
+
+1. **Personal Information**: Names, nicknames, event details
+2. **Event Information**: Date, title, tagline
+3. **Navigation**: Adjust links and labels
+4. **Sections**: Hero, features, celebration, love letter, highlights, contact, footer
+5. **Media**: Replace images in `/public/data/pic/` and music in `/public/data/music/`
+6. **Colors & Styles**: Modify Tailwind configuration or component styles as needed
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18.x or later
-- npm, yarn, pnpm, or bun
+- Node.js 18+
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd birthday
-```
+# Clone the repository
+git clone https://github.com/yourusername/celebrationhub.git
+cd celebrationhub
 
-2. Install dependencies:
-```bash
+# Install dependencies
 npm install
 # or
 yarn install
-# or
-pnpm install
-# or
-bun install
 ```
 
-3. Run the development server:
+### Development
+
 ```bash
+# Start development server
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Open http://localhost:3000 in your browser
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the birthday surprise!
-
-### Building for Production
+### Production Build
 
 ```bash
+# Build for production
 npm run build
 # or
 yarn build
-# or
-pnpm build
-# or
-bun build
-```
 
-### Preview Production Build
-
-```bash
+# Start production server
 npm start
 # or
 yarn start
-# or
-pnpm start
-# or
-bun start
 ```
 
-## 📱 Sections Overview
+## 📁 Project Structure
 
-### 🏠 Home Page
-The landing page features a stunning animated birthday greeting for Pankhudi with:
-- Floating celebration text ("Happy Birthday Pankhudi!")
-- Animated prismatic burst effects
-- Call-to-action button to explore memories
-- Responsive design that works on all devices
+```
+celebrationhub/
+├── app/                    # Next.js 13 app router (pages)
+├── components/             # Reusable React components
+├── lib/                    # Configuration and utility functions
+│   ├── siteConfig.ts       # Main configuration file (customize here)
+│   ├── dateUtils.ts        # Date formatting utilities
+│   └── utils.ts            # Utility functions
+├── public/                 # Static assets
+│   ├── data/               # Images and music
+│   └── ...                 # Other static files
+├── styles/                 # Global styles
+├── public/                 # Static assets served directly
+├── ...                     # Configuration files
+```
 
-### 🎂 Celebrate Page
-The main celebration hub featuring:
-- Animated birthday cake with candles
-- Continuous birthday music playback
-- Festive confetti effects
-- Interactive celebration elements
-- Three gift boxes representing different aspects of celebration
+## 🔧 Customization Guide
 
-### 🖼️ Gallery Section
-An innovative 3D photo dome gallery where users can:
-- Click and drag to rotate the photo sphere
-- View memories from all angles
-- Experience smooth animations and transitions
-- See special celebration moments in an immersive way
+### 1. Site Configuration (`lib/siteConfig.ts`)
 
-### 🏆 Best Moments Page
-A curated collection of special memories featuring:
-- First smile
-- Parent's embrace
-- Achievements and milestones
-- Meaningful friendships
-- Life explorations and adventures
-- Dreams and aspirations
+Edit the `siteConfig` object to change:
+- Names and personal information
+- Event title, date, and tagline
+- Navigation items and labels
+- Section titles, descriptions, and button texts
+- Celebration elements (gift boxes, achievement badges, etc.)
+- Love letter / message content
+- Highlights/milestones
+- Contact form placeholders and messages
+- Footer text
 
-### 💌 Love Letter Page
-A heartfelt personal message that includes:
-- Warm birthday wishes
-- Appreciation for her qualities
-- Shared memories and inside jokes
-- Hopes and dreams for her future
-- Romantic paper letter aesthetic with decorative elements
+### 2. Media Assets
 
-### 💬 Contact Page
-A simple form for well-wishers to:
-- Leave birthday messages
-- Share memories and anecdotes
-- Send love and appreciation
-- Connect with the birthday celebration
+- **Images**: Replace files in `public/data/pic/` with your own images (keep same naming convention or update references in gallery components)
+- **Music**: Replace audio files in `public/data/music/` (currently supports .mp3 format)
 
-## 🎵 Media Assets
+### 3. Styling Adjustments
 
-### Music
-- `/public/data/music/1.mp3` - Birthday celebration music that loops throughout the site
+- Tailwind configuration: `tailwind.config.ts` and `postcss.config.mjs`
+- Global styles: `app/globals.css`
+- Component-specific styles: Tailwind classes within components
 
-### Photos
-- `/public/data/pic/` - Collection of 21 memorable photos (1.jpg through 21.jpg) showcasing special moments
+## 🖥️ Available Scripts
 
-## 🎨 Customization
+In the project directory, you can run:
 
-To personalize this birthday site for someone else, you can modify the centralized configuration file:
-
-### 1. Update the Configuration File
-Edit `lib/siteConfig.ts` to customize all text content, names, dates, and more. This file contains all configurable content in a structured TypeScript format.
-
-### 2. Update Media Assets
-Replace the media files in the `public/data/` directory:
-- **Music**: Replace `/public/data/music/1.mp3` with your preferred birthday track
-- **Photos**: Replace or add images in `/public/data/pic/` (supports JPG/PNG formats)
-
-For more detailed customization options, see the full customization guide below.
-
-## 🛠️ Development
-
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint for code quality
-
-### Key Technologies Explained
-
-**GSAP Animations**: Used throughout for smooth entrance animations, transitions, and interactive effects.
-
-**3D Dome Gallery**: A custom Three.js-inspired implementation that displays photos on a rotatable sphere, allowing users to explore memories from all angles.
-
-**Tailwind CSS**: Utility-first CSS framework used for responsive design and rapid styling.
-
-**Next.js 13 App Router**: Modern React framework with server components, routing, and optimized performance.
-
-## 💡 How It Works
-
-### Animation System
-The site uses GSAP (GreenSock Animation Platform) for all animations:
-- Entrance animations on page load
-- Scroll-triggered animations in the gallery
-- Interactive animations responding to mouse movement
-- Continuous subtle animations for ambient effects
-
-### Music System
-- Background music plays automatically on celebration pages
-- Audio loops seamlessly for continuous enjoyment
-- User interaction required on some browsers due to autoplay policies
-
-### Gallery Interaction
-The 3D dome gallery uses:
-- Mouse/touch dragging for rotation
-- Inertia-based spinning after release
-- Smooth transitions when viewing individual photos
-- Lighting effects that respond to cursor position
-
-## 🎁 Perfect For
-
-- Surprise birthday celebrations
-- Anniversary commemorations
-- Special milestone celebrations
-- Long-distance gift-giving
-- Creating lasting digital memories
+- `npm run dev` / `yarn dev` - Starts development server at `http://localhost:3000`
+- `npm run build` / `yarn build` - Builds the application for production
+- `npm start` / `yarn start` - Runs the built application in production mode
+- `npm run lint` / `yarn lint` - Runs ESLint for code quality
+- `npm test` / `yarn test` - Runs Jest tests
+- `npm run test:watch` / `yarn test:watch` - Runs Jest in watch mode
+- `npm run test:coverage` / `yarn test:coverage` - Runs tests with coverage report
 
 ## 📱 Responsive Design
 
@@ -248,34 +147,39 @@ The website is fully responsive and adapts to:
 - Laptops (1024px+ width)
 - Desktop monitors (1440px+ width)
 
-All animations and interactions work smoothly across devices.
+All animations and interactions are optimized for smooth performance across devices.
 
 ## 🤝 Contributing
 
-This was created as a personal gift, but if you'd like to adapt it for someone special:
+This template is meant to be forked and personalized for your specific celebrations. However, if you'd like to contribute to the base template:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/personalization`)
-3. Commit your changes (`git commit -am 'Personalize for [Name]'`)
-4. Push to the branch (`git push origin feature/personalization`)
-5. Create a new Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 🎯 Future Enhancements
+## 🎯 Perfect For
 
-Ideas for future versions:
-- [ ] Add video support in the gallery
-- [ ] Include guestbook/signature feature
-- [ ] Add photo upload capability for guests
-- [ ] Implement dark/light mode toggle
-- [ ] Add more interactive celebration elements
-- [ ] Include personalized mini-games or activities
+- Birthday celebrations
+- Anniversary commemorations
+- Graduation parties
+- Retirement parties
+- Baby showers
+- Engagement announcements
+- Holiday celebrations
+- Any special occasion worth celebrating
 
-## 💖 Created With Love
+## 💖 Created With
 
-This birthday website was created with lots of love, joy, and celebration in mind. Every animation, photo, and message was carefully chosen to make Pankhudi's special day unforgettable.
-
-**Happy Birthday, Pankhudi!** 🎉🎂🎈
+This template was built with:
+- [Next.js](https://nextjs.org) - The React framework
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
+- [GSAP](https://greensock.com/gsap/) - Professional-grade animation library
+- [OGL](https://github.com/oframe/ogl) - Lightweight WebGL wrapper
+- [Lucide Icons](https://lucide.dev) - Beautifully simple icons
+- And lots of ❤️ for creating joyful experiences
 
 ---
 
-*Made with Next.js, Tailwind CSS, GSAP, and lots of ❤️*
+*Make every celebration memorable with CelebrationHub - where technology meets joy.*
