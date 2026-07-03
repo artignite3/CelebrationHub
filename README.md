@@ -2,7 +2,7 @@
 
 A beautiful, interactive celebration website template perfect for birthdays, anniversaries, and special occasions. Built with Next.js, Tailwind CSS, and GSAP, this template features animations, music, photo galleries, and heartfelt messages to create memorable digital experiences.
 
-![Celebration Website Preview](public/og-image.jpg) <!-- You can add an OG image -->
+![Celebration Website Preview](public/data/pic/website.png) <!-- You can add an OG image -->
 
 ## ✨ Features
 
