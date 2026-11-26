@@ -1,85 +1,77 @@
-// ...existing code...
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Navigation from "@/components/navigation"
 import { contact } from "@/lib/siteConfig"
 
+const field =
+  "w-full rounded-[10px] border border-ink/10 bg-raised px-4 py-3 text-[15px] text-ink placeholder:text-ink-3 transition-colors duration-150 ease-out-soft focus:border-flame focus:outline-none"
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
+  const [sent, setSent] = useState(false)
 
-  useEffect(() => {
-    // debug: confirm imports are components at runtime
-    // eslint-disable-next-line no-console
-    console.log("Navigation import type:", typeof Navigation, Navigation)
-  }, [])
-
+  // shortcut: nothing is sent anywhere yet, the form only confirms locally; wire it to an email or form service to deliver wishes
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    alert(contact.successMessage)
+    setSent(true)
     setFormData({ name: "", email: "", message: "" })
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-blue-950 to-black">
+    <div className="min-h-screen">
       <Navigation />
 
-      <div className="pt-32 px-4 pb-20">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-7xl md:text-8xl font-bold text-white mb-4 text-center text-balance">
-            Get in <span className="text-cyan-400">Touch</span>
-          </h1>
+      <main className="mx-auto max-w-xl px-6 pt-32 pb-24 md:px-8 md:pt-40">
+        <h1 className="font-serif text-[44px] leading-[1.06] font-normal tracking-[-0.02em] md:text-[56px] md:tracking-[-0.03em]">
+          {contact.title}
+        </h1>
+        <p className="mt-4 text-lg leading-[30px] text-ink-2">{contact.description}</p>
 
-          <p className="text-xl text-blue-200 text-center mb-12">
-            {contact.description}
+        <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-6">
+          <label className="flex flex-col gap-2 text-sm font-medium">
+            Name
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className={field}
+              placeholder={contact.formPlaceholders.name}
+              required
+            />
+          </label>
+
+          <label className="flex flex-col gap-2 text-sm font-medium">
+            Email
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className={field}
+              placeholder={contact.formPlaceholders.email}
+              required
+            />
+          </label>
+
+          <label className="flex flex-col gap-2 text-sm font-medium">
+            Message
+            <textarea
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className={`${field} h-32 resize-none`}
+              placeholder={contact.formPlaceholders.message}
+              required
+            />
+          </label>
+
+          <button type="submit" className="btn-primary w-full">
+            {contact.submitButtonText}
+          </button>
+          <p role="status" className="min-h-5 text-sm text-ink-2">
+            {sent ? contact.successMessage : ""}
           </p>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-white font-medium mb-2">Name</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-blue-900/30 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-500"
-                placeholder={contact.formPlaceholders.name}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-white font-medium mb-2">Email</label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-blue-900/30 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-500"
-                placeholder={contact.formPlaceholders.email}
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-white font-medium mb-2">Message</label>
-              <textarea
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full bg-blue-900/30 border border-cyan-500/30 rounded-lg px-4 py-3 text-white placeholder-blue-300 focus:outline-none focus:border-cyan-500 h-32 resize-none"
-                placeholder={contact.formPlaceholders.message}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
-            >
-              {contact.submitButtonText}
-            </button>
-          </form>
-        </div>
-      </div>
+        </form>
+      </main>
     </div>
   )
 }
-// ...existing code...

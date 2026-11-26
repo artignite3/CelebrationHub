@@ -1,37 +1,27 @@
-"use client"
-
 import Navigation from "@/components/navigation"
 import BestMomentsCard from "@/components/best-moments-card"
-import { bestMoments, name } from "@/lib/siteConfig"
+import FooterSection from "@/components/footer-section"
+import { bestMoments } from "@/lib/siteConfig"
 
 export default function BestMomentsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-900 to-black">
+    <div className="min-h-screen">
       <Navigation />
 
-      <div className="pt-32 px-4 pb-20">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-7xl md:text-8xl font-bold text-white mb-4 text-center text-balance">
-            {bestMoments.title} <span className="text-cyan-400">Moments</span>
-          </h1>
+      <main className="mx-auto max-w-6xl px-6 pt-32 pb-24 md:px-8 md:pt-40">
+        <h1 className="font-serif text-[44px] leading-[1.06] font-normal tracking-[-0.02em] md:text-[64px] md:tracking-[-0.03em]">
+          {bestMoments.title}
+        </h1>
+        <p className="mt-4 max-w-[36rem] text-lg leading-[30px] text-ink-2">{bestMoments.description}</p>
 
-          <p className="text-xl text-blue-200 text-center mb-16 max-w-2xl mx-auto">
-            {bestMoments.description}
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {bestMoments.moments.map((moment, index) => (
-              <BestMomentsCard
-                key={index}
-                title={moment.title}
-                description={moment.description}
-                emoji={moment.emoji}
-                date={moment.date}
-              />
-            ))}
-          </div>
+        <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {bestMoments.moments.map((moment) => (
+            <BestMomentsCard key={moment.title} title={moment.title} description={moment.description} date={moment.date} />
+          ))}
         </div>
-      </div>
+      </main>
+
+      <FooterSection />
     </div>
   )
 }

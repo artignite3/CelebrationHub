@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Sans, Fraunces, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteTitle, siteTagline } from "@/lib/siteConfig";
 import type { Viewport } from "next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
+  subsets: ["latin"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
 });
 
@@ -80,7 +85,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#161513",
 };
 
 export default function RootLayout({
@@ -91,7 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${instrumentSans.variable} ${fraunces.variable} ${geistMono.variable} font-sans antialiased`}
       >
         {children}
       </body>
