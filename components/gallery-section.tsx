@@ -38,7 +38,7 @@ export default function GallerySection() {
       <div className="split split--lead">
         <div className="stack">
           <h2 id="gallery-heading">Your moments</h2>
-          <p className="lead">Drag to turn the dome. Tap a photograph to open it.</p>
+          <p className="lead">Drag to turn the dome and see all twenty-three.</p>
           <div style={{ paddingTop: "var(--space-xs)" }}>
             <button type="button" onClick={() => popupRef.current?.open()} className="btn">
               Celebrate now

@@ -40,6 +40,8 @@
 }
 :root {
   color-scheme: light;
+  --color-scrim: oklch(19% 0.024 52 / 0.4);
+  --body-weight: 400;
   --space-3xs: 2px;
   --space-2xs: 4px;
   --space-xs: 8px;
@@ -82,3 +84,36 @@
 }
 @media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }
 @media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }
+
+/* Dark mode: the same system re-derived, never inverted. Hue holds on every token;
+   elevation is lightness (cards lighter than the page) and an inset hairline, never a drop shadow. */
+[data-mode="dark"] {
+  color-scheme: dark;
+  --color-paper: oklch(16% 0.012 70); --color-paper-2: oklch(19% 0.013 70); --color-paper-3: oklch(22% 0.014 70);
+  --color-ink: oklch(93% 0.012 76); --color-ink-2: oklch(82% 0.012 72); --color-muted: oklch(68% 0.012 66);
+  --color-rule: oklch(31% 0.012 70);
+  --color-accent: oklch(74% 0.06 248); --color-accent-ink: oklch(17% 0.012 70); --color-focus: oklch(76% 0.08 248);
+  --color-card: oklch(20.5% 0.012 74); --color-card-edge: oklch(33% 0.012 72); --color-pencil: oklch(66% 0.010 62);
+  --color-error: oklch(72% 0.14 27); --color-success: oklch(74% 0.11 150);
+  --color-scrim: oklch(12% 0.01 70 / 0.72);
+  --card-lit: oklch(22.5% 0.012 76); --card-shade: oklch(19.5% 0.012 72); --lit: oklch(96% 0.01 80 / 0.05);
+  --shadow-card: inset 0 0 0 1px oklch(33% 0.012 72);
+  --stain-1: oklch(74% 0.055 14); --stain-2: oklch(72% 0.045 132); --stain-3: oklch(70% 0.06 58); --stain-4: oklch(74% 0.04 206);
+  --body-weight: 350;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode]) {
+    color-scheme: dark;
+    --color-paper: oklch(16% 0.012 70); --color-paper-2: oklch(19% 0.013 70); --color-paper-3: oklch(22% 0.014 70);
+    --color-ink: oklch(93% 0.012 76); --color-ink-2: oklch(82% 0.012 72); --color-muted: oklch(68% 0.012 66);
+    --color-rule: oklch(31% 0.012 70);
+    --color-accent: oklch(74% 0.06 248); --color-accent-ink: oklch(17% 0.012 70); --color-focus: oklch(76% 0.08 248);
+    --color-card: oklch(20.5% 0.012 74); --color-card-edge: oklch(33% 0.012 72); --color-pencil: oklch(66% 0.010 62);
+    --color-error: oklch(72% 0.14 27); --color-success: oklch(74% 0.11 150);
+    --color-scrim: oklch(12% 0.01 70 / 0.72);
+    --card-lit: oklch(22.5% 0.012 76); --card-shade: oklch(19.5% 0.012 72); --lit: oklch(96% 0.01 80 / 0.05);
+    --shadow-card: inset 0 0 0 1px oklch(33% 0.012 72);
+    --stain-1: oklch(74% 0.055 14); --stain-2: oklch(72% 0.045 132); --stain-3: oklch(70% 0.06 58); --stain-4: oklch(74% 0.04 206);
+    --body-weight: 350;
+  }
+}

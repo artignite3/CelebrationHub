@@ -1,6 +1,6 @@
 /* Hallmark · shape: Split Studio · genre: editorial · theme: Atelier (deal 3/3, seed private-birthday-gift-one-22a2·9a4f431a·2026-11-26·r0) · redesign: full · draw: 793fc7
  * hero: Index (/), Stage (/celebrate, /contact), Corridor (/love-letter), Banner (/best-moments) · nav: floating pill, a cotton bar · footer: mast · imagery: photographs, the project's own 23 (stand-ins), warm · signature: each photograph hung as a matted print, its number pencilled beneath on a blank rule
- * axes: light/roman-serif/cool · posture: restrained · contrast: pass · fold: pass · job: read · v2.0.0 */
+ * axes: light/roman-serif/cool · modes: light+dark · posture: restrained · contrast: pass · fold: pass · job: read · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S3 R5 V4 · weakest: S, the project's photographs are stock stand-ins; hung them as numbered prints so her own replace them one for one, and let the letter carry the second half of the page */
 /* Hallmark · the draw's listen sections (dates, a record, a mailing list) swapped for the site's own: the index of the gift, the photographs, the letter */
 /* Hallmark · dismissed kept · #gallery and /love-letter are still linked, from hero.index in lib/siteConfig.ts, which the static record cannot read */
@@ -17,7 +17,7 @@
 }
 
 /* ---------- Paper ---------- */
-body { color: var(--color-ink-2); line-height: 1.6; }
+body { color: var(--color-ink-2); line-height: 1.6; font-weight: var(--body-weight); }
 .paper { position: relative; isolation: isolate; min-height: 100dvh; }
 .paper::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: var(--grain); background-size: 180px; opacity: 0.16; mix-blend-mode: multiply; }
 h1, h2 { color: var(--color-ink); font-weight: var(--display-weight); }
@@ -203,9 +203,20 @@ h3 { color: var(--color-ink); font-weight: var(--serif-small); letter-spacing: 0
 .tab:focus-visible, .file:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 
 /* ---------- Dialog ---------- */
-.scrim { position: fixed; inset: 0; z-index: var(--z-modal); display: grid; place-items: center; padding: var(--gutter); background: color-mix(in oklab, var(--color-ink) 40%, transparent); }
+.scrim { position: fixed; inset: 0; z-index: var(--z-modal); display: grid; place-items: center; padding: var(--gutter); background: var(--color-scrim); }
 .dialog { width: min(100%, 30rem); padding: var(--space-2xl) var(--space-xl); text-align: center; }
 .dialog h2 { margin-inline: auto; }
+
+/* ---------- Dark: grain lifts instead of darkening; shadows are already off in the tokens ---------- */
+[data-mode="dark"] .paper::after { opacity: 0.1; mix-blend-mode: screen; }
+@media (prefers-color-scheme: dark) { :root:not([data-mode]) .paper::after { opacity: 0.1; mix-blend-mode: screen; } }
+
+/* ---------- Mode toggle ---------- */
+.mode-toggle { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-ink-2); cursor: pointer; transition: color var(--dur-short) var(--ease-out); }
+.mode-toggle:hover { color: var(--color-ink); }
+.mode-toggle:active { transform: translateY(1px); }
+.mode-toggle:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.nav__end { display: flex; align-items: center; gap: var(--space-xs); }
 
 /* ---------- One reveal, visible without script ---------- */
 @keyframes settle { from { opacity: 0; transform: translateY(8px); } }

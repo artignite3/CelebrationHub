@@ -31,3 +31,19 @@ describe("Navigation", () => {
     expect(screen.getByRole("button", { name: "Close menu" })).toHaveAttribute("aria-expanded", "true")
   })
 })
+
+describe("Mode toggle", () => {
+  afterEach(() => {
+    delete document.documentElement.dataset.mode
+    localStorage.clear()
+  })
+
+  it("switches to dark and remembers it", async () => {
+    render(<Navigation />)
+    fireEvent.click(screen.getByRole("button", { name: "Switch to dark mode" }))
+    expect(document.documentElement.dataset.mode).toBe("dark")
+    expect(localStorage.getItem("mode")).toBe("dark")
+    // the label follows <html data-mode>, which the toggle observes asynchronously
+    expect(await screen.findByRole("button", { name: "Switch to light mode" })).toBeInTheDocument()
+  })
+})

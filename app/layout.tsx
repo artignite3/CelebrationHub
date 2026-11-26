@@ -5,7 +5,8 @@ import { siteTitle, siteTagline } from "@/lib/siteConfig";
 import type { Viewport } from "next";
 
 // Self-hosted at build time: no request to Google from the visitor's browser
-const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: "400", variable: "--font-hanken", display: "swap" });
+// Variable weight, so dark mode can set text at 350 (light text on dark reads heavier)
+const hanken = Hanken_Grotesk({ subsets: ["latin"], variable: "--font-hanken", display: "swap" });
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -77,7 +78,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#efe9df",
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ede7de" },
+    { media: "(prefers-color-scheme: dark)", color: "#1b1713" },
+  ],
 };
 
 export default function RootLayout({
@@ -86,8 +91,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={hanken.variable}>
+    <html lang="en" className={hanken.variable} suppressHydrationWarning>
       <head>
+        {/* Sets the saved mode before first paint, so the page never flashes the wrong colours */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var m=localStorage.getItem("mode");if(m==="light"||m==="dark")document.documentElement.dataset.mode=m}catch(e){}`,
+          }}
+        />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
         <link href="https://api.fontshare.com/v2/css?f[]=sentient@300,400&display=swap" rel="stylesheet" />
