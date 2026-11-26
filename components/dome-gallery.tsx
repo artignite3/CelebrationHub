@@ -35,28 +35,33 @@ type ItemDef = {
 }
 
 const DEFAULT_IMAGES: ImageItem[] = [
-  { src: "/data/pic/1.jpg", alt: "Birthday celebration" },
-  { src: "/data/pic/2.jpg", alt: "Party decorations" },
-  { src: "/data/pic/3.jpg", alt: "Festive lights" },
-  { src: "/data/pic/4.jpg", alt: "Birthday cake" },
-  { src: "/data/pic/5.jpg", alt: "Confetti" },
-  { src: "/data/pic/6.jpg", alt: "Celebration moment" },
-  { src: "/data/pic/7.jpg", alt: "Happy birthday" },
-  { src: "/data/pic/8.jpg", alt: "Birthday celebration" },
-  { src: "/data/pic/9.jpg", alt: "Party decorations" },
-  { src: "/data/pic/10.jpg", alt: "Festive lights" },
-  { src: "/data/pic/11.jpg", alt: "Birthday cake" },
-  { src: "/data/pic/12.jpg", alt: "Confetti" },
-  { src: "/data/pic/15.jpg", alt: "Celebration moment" },
-  { src: "/data/pic/14.jpg", alt: "Happy birthday" },
-  { src: "/data/pic/15.jpg", alt: "Party decorations" },
-  { src: "/data/pic/16.jpg", alt: "Festive lights" },
-  { src: "/data/pic/17.jpg", alt: "Birthday cake" },
-  { src: "/data/pic/18.jpg", alt: "Confetti" },
-  { src: "/data/pic/19.jpg", alt: "Celebration moment" },
-  { src: "/data/pic/20.jpg", alt: "Happy birthday" },
-  { src: "/data/pic/21.jpg", alt: "Birthday celebration" },
+  { src: "/data/pic/1.jpg", alt: "A painted wagon parked under trees" },
+  { src: "/data/pic/2.jpg", alt: "Wooden letter tiles" },
+  { src: "/data/pic/3.jpg", alt: "Sun through pine trees" },
+  { src: "/data/pic/4.jpg", alt: "A misty path through a wood" },
+  { src: "/data/pic/5.jpg", alt: "Bulrushes by water" },
+  { src: "/data/pic/6.jpg", alt: "Dark woodland" },
+  { src: "/data/pic/7.jpg", alt: "Gravel and stones in low light" },
+  { src: "/data/pic/8.jpg", alt: "Daisies laid on stone" },
+  { src: "/data/pic/9.jpg", alt: "A pile of shells" },
+  { src: "/data/pic/10.jpg", alt: "Light on rippling water" },
+  { src: "/data/pic/11.jpg", alt: "A forest floor at night" },
+  { src: "/data/pic/12.jpg", alt: "A dragonfly on a leaf" },
+  { src: "/data/pic/13.jpg", alt: "A dragonfly in the grass" },
+  { src: "/data/pic/14.jpg", alt: "A lighthouse beside a silo" },
+  { src: "/data/pic/15.jpg", alt: "Dice on a table" },
+  { src: "/data/pic/16.jpg", alt: "Light falling into a forest path" },
+  { src: "/data/pic/17.jpg", alt: "A painted rooftop above the hills" },
+  { src: "/data/pic/18.jpg", alt: "A pale leaf on the ground" },
+  { src: "/data/pic/19.jpg", alt: "Two dice held in open hands" },
+  { src: "/data/pic/20.jpg", alt: "An old brick arch" },
+  { src: "/data/pic/21.jpg", alt: "Grey gravel" },
+  { src: "/data/pic/22.jpg", alt: "A horse looking straight on" },
+  { src: "/data/pic/23.jpg", alt: "Painted numbers on red" },
 ]
+
+// Tiles are about 200px on screen: serve them through Next's optimizer at 640px instead of the camera originals
+const optimized = (src: string) => (src.startsWith("/") ? `/_next/image?url=${encodeURIComponent(src)}&w=640&q=75` : src)
 
 const DEFAULTS = {
   maxVerticalRotationDeg: 5,
@@ -411,12 +416,12 @@ export default function DomeGallery({
         className="sphere-root relative w-full h-full"
         style={
           {
-            ["--segments-x" as any]: segments,
-            ["--segments-y" as any]: segments,
-            ["--overlay-blur-color" as any]: overlayBlurColor,
-            ["--tile-radius" as any]: imageBorderRadius,
-            ["--enlarge-radius" as any]: openedImageBorderRadius,
-            ["--image-filter" as any]: grayscale ? "grayscale(1)" : "none",
+            ["--segments-x" as string]: segments,
+            ["--segments-y" as string]: segments,
+            ["--overlay-blur-color" as string]: overlayBlurColor,
+            ["--tile-radius" as string]: imageBorderRadius,
+            ["--enlarge-radius" as string]: openedImageBorderRadius,
+            ["--image-filter" as string]: grayscale ? "grayscale(1)" : "none",
           } as React.CSSProperties
         }
       >
@@ -443,10 +448,10 @@ export default function DomeGallery({
                   data-size-y={it.sizeY}
                   style={
                     {
-                      ["--offset-x" as any]: it.x,
-                      ["--offset-y" as any]: it.y,
-                      ["--item-size-x" as any]: it.sizeX,
-                      ["--item-size-y" as any]: it.sizeY,
+                      ["--offset-x" as string]: it.x,
+                      ["--offset-y" as string]: it.y,
+                      ["--item-size-x" as string]: it.sizeX,
+                      ["--item-size-y" as string]: it.sizeY,
                       top: "-999px",
                       bottom: "-999px",
                       left: "-999px",
@@ -455,7 +460,7 @@ export default function DomeGallery({
                   }
                 >
                   <div
-                    className="item__image absolute block overflow-hidden bg-slate-900"
+                    className="item__image absolute block overflow-hidden bg-paper-3"
                     style={{
                       inset: "10px",
                       borderRadius: `var(--tile-radius, ${imageBorderRadius})`,
@@ -463,7 +468,9 @@ export default function DomeGallery({
                     }}
                   >
                     <img
-                      src={it.src || "/placeholder.svg"}
+                      src={it.src ? optimized(it.src) : "/placeholder.svg"}
+                      loading="lazy"
+                      decoding="async"
                       draggable={false}
                       alt={it.alt}
                       className="w-full h-full object-cover pointer-events-none"

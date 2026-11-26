@@ -1,26 +1,18 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, Fraunces, Geist_Mono } from "next/font/google";
+import { Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { siteTitle, siteTagline } from "@/lib/siteConfig";
 import type { Viewport } from "next";
 
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
-  subsets: ["latin"],
-});
+// Self-hosted at build time: no request to Google from the visitor's browser
+const hanken = Hanken_Grotesk({ subsets: ["latin"], weight: "400", variable: "--font-hanken", display: "swap" });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${siteTitle} - ${siteTagline}`,
     template: `%s | ${siteTitle}`,
@@ -54,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${siteTitle} - ${siteTagline}`,
     description: "A beautiful birthday celebration website featuring interactive 3D gallery, heartfelt messages, and memorable moments to make someone's special day unforgettable.",
-    url: "https://birthday.vercel.app", // Update with actual domain
+    url: "/",
     siteName: siteTitle,
     images: [
       {
@@ -85,7 +77,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#161513",
+  themeColor: "#efe9df",
 };
 
 export default function RootLayout({
@@ -94,12 +86,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${instrumentSans.variable} ${fraunces.variable} ${geistMono.variable} font-sans antialiased`}
-      >
-        {children}
-      </body>
+    <html lang="en" className={hanken.variable}>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
+        <link href="https://api.fontshare.com/v2/css?f[]=sentient@300,400&display=swap" rel="stylesheet" />
+      </head>
+      <body className="paper">{children}</body>
     </html>
   );
 }

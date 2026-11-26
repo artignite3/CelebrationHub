@@ -1,58 +1,81 @@
-"use client"
-
-import { useEffect, useRef } from "react"
-import gsap from "gsap"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import { loveLetter } from "@/lib/siteConfig"
+import Countdown from "@/components/countdown"
+import { isUnlocked } from "@/lib/birthday"
+import { loveLetter } from "@/lib/letter"
+import { birthday } from "@/lib/siteConfig"
+
+// Re-checked every five minutes, so the letter opens on time without a redeploy
+export const revalidate = 300
 
 export default function LoveLetterPage() {
-  const letterRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    if (!letterRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    gsap.fromTo(letterRef.current, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" })
-  }, [])
-
+  if (!isUnlocked()) return <Sealed />
   return (
-    <div className="min-h-screen px-6 py-8 md:px-8 md:py-12">
-      <div className="mx-auto max-w-2xl">
-        <Link href="/" className="link-quiet inline-flex items-center gap-2 text-[15px]">
-          <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
-          Home
-        </Link>
+    <main className="container" style={{ paddingBlock: "var(--space-xl) var(--section-gap-s)" }}>
+      <Link href="/" className="link back">
+        <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
+        Home
+      </Link>
 
-        <article
-          ref={letterRef}
-          className="mt-8 rounded-[4px] bg-paper px-6 py-12 text-paper-ink shadow-[0_24px_64px_rgba(0,0,0,0.5)] md:px-16 md:py-16"
-        >
-          <header className="border-b border-paper-ink/12 pb-8">
-            <p className="text-sm text-paper-ink-2">{loveLetter.subtitle}</p>
-            <h1 className="mt-2 font-serif text-4xl font-normal tracking-[-0.02em]">{loveLetter.title}</h1>
-          </header>
-
-          <div className="mt-10 flex flex-col gap-6 font-serif text-[18px] leading-[30px]">
-            <p>{loveLetter.opening}</p>
-            {loveLetter.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            <p className="pt-4">
-              {loveLetter.closing}
-              <span className="mt-2 block font-medium">{loveLetter.senderName}</span>
-            </p>
-          </div>
-
-          <p className="mt-12 border-t border-paper-ink/12 pt-8 text-center text-sm text-paper-ink-2">
-            {loveLetter.quote}
+      <article className="sheet stock reveal" style={{ marginTop: "var(--space-xl)" }}>
+        <header>
+          <h1 className="display-s">{loveLetter.title}</h1>
+          <p className="lead muted" style={{ marginTop: "var(--space-sm)" }}>
+            {loveLetter.subtitle}
           </p>
-        </article>
+        </header>
 
-        <div className="mt-12 text-center">
-          <Link href="/" className="btn-secondary">
-            Return to celebration
-          </Link>
+        <div className="sheet__body" style={{ marginTop: "var(--space-2xl)" }}>
+          <p>{loveLetter.opening}</p>
+          {loveLetter.paragraphs.map((paragraph, i) => (
+            <p key={paragraph} className={i === 0 ? "dropcap" : undefined}>
+              {paragraph}
+            </p>
+          ))}
+          <p style={{ marginTop: "var(--space-xl)" }}>{loveLetter.closing}</p>
+          <p className="sign" style={{ marginTop: "var(--space-xs)" }}>
+            {loveLetter.senderName}
+          </p>
         </div>
+
+        <p
+          className="display-s"
+          style={{
+            marginTop: "var(--space-2xl)",
+            paddingTop: "var(--space-xl)",
+            borderTop: "var(--rule-hair) solid var(--color-rule)",
+            fontFamily: "var(--font-display)",
+            fontWeight: "var(--statement-weight)",
+            fontSize: "var(--text-xl)",
+            color: "var(--color-ink)",
+          }}
+        >
+          {loveLetter.quote}
+        </p>
+      </article>
+
+      <div style={{ marginTop: "var(--space-xl)", textAlign: "center" }}>
+        <Link href="/" className="btn">
+          Return to celebration
+        </Link>
       </div>
-    </div>
+    </main>
+  )
+}
+
+// Before the day: the envelope, not the letter. The text is never sent to the browser.
+function Sealed() {
+  return (
+    <main className="container" style={{ paddingBlock: "var(--space-xl) var(--section-gap-s)" }}>
+      <Link href="/" className="link back">
+        <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
+        Home
+      </Link>
+      <article className="sheet stock stock--framed seal reveal" style={{ marginTop: "var(--space-xl)" }}>
+        <h1 className="display-s">{loveLetter.title}</h1>
+        <p className="lead muted">Sealed until {birthday.date.replace(/\s\d{4}$/, "")}</p>
+        <Countdown />
+      </article>
+    </main>
   )
 }

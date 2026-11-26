@@ -14,6 +14,9 @@ export const siteConfig = {
   birthday: {
     date: "23 Sept 1998", // Display format
     dateISO: "1998-09-23", // ISO format for calculations if needed
+    // The letter stays sealed until midnight on this date in her timezone. Set next year's date to seal it again.
+    unlockISO: "2026-09-23",
+    utcOffset: "+05:30",
     // You can add time/location here if needed for display
     // time: "10:30 AM",
     // location: "Delhi, India"
@@ -24,27 +27,33 @@ export const siteConfig = {
   siteTagline: "A surprise made for you",
 
   // Navigation
-  navBrand: "Birthday",
+  navBrand: "Shreya's birthday",
   navItems: [
     { label: "Home", href: "/" },
     { label: "Celebrate", href: "/celebrate" },
     { label: "Gallery", href: "/#gallery" },
-    { label: "Best Moments", href: "/best-moments" },
-    { label: "Contact", href: "/contact" },
+    { label: "Wishes", href: "/#wishes" },
+    { label: "Best moments", href: "/best-moments" },
+    { label: "Leave a wish", href: "/contact" },
   ],
 
   // Hero Section
   hero: {
-    greeting: "Happy Birthday",
-    celebrationMessage: "Photos from the years, a letter from RD and a few favourite moments, gathered in one place for your day",
-    exploreButtonText: "See the photos",
-    letterButtonText: "Read the letter",
+    greeting: "Happy birthday",
+    celebrationMessage: "Made for your birthday, 23 September.",
+    // The hero leads with what the gift holds
+    index: [
+      { title: "Twenty-three photographs", meta: "The dome below", href: "#gallery" },
+      { title: "A letter from RD", meta: "Six paragraphs", href: "/love-letter" },
+      { title: "Best moments", meta: "Six of them", href: "/best-moments" },
+      { title: "Celebrate", meta: "Music and confetti", href: "/celebrate" },
+    ],
   },
 
   // Features Section
   features: {
     title: "What's so special today",
-    description: "Today marks another year of your incredible journey. It's a day to celebrate who you are, the impact you've made, and all the beautiful moments yet to come. Let's make this day unforgettable.",
+    description: "Another year of you. A day for who you are, what you have made better, and the moments still to come.",
     buttonText: "Read your letter",
     buttonLink: "/love-letter"
   },
@@ -55,50 +64,32 @@ export const siteConfig = {
     description: "Today is your day. Celebrate with joy, laughter and good memories. You deserve all the happiness in the world.",
     giftBoxes: [
       {
-        title: "Joy Bringer",
+        title: "Joy bringer",
         description: "You bring joy and happiness to everyone around you"
       },
       {
-        title: "Party Legend",
+        title: "Party legend",
         description: "You know how to celebrate life in style"
       },
       {
-        title: "Adventure Guide",
+        title: "Adventure guide",
         description: "You lead the way to exciting new experiences"
       }
     ]
   },
 
-  // Love Letter
-  loveLetter: {
-    senderName: "RD", // The person sending the letter
-    title: "A letter for you",
-    subtitle: "On your birthday",
-    opening: "Dear Birthday Didi,",
-    paragraphs: [
-      "First of all, Happy Birthday, you amazing human being! I still can’t believe another year has flown by, and somehow, you’ve managed to become even more awesome than before. How do you do that? Seriously, teach me your ways!",
-      "I hope you take a moment to see how much you’ve grown and how many lives you’ve touched, just by being you. You have this rare ability to make things better — whether it’s a bad day, an awkward silence, or a tough situation. You handle it all with that calm strength and a smile that somehow makes everything lighter.",
-      "I still remember the countless random talks, the shared jokes that no one else gets, and those times we just sat and laughed until it hurt. Those are the memories I wouldn’t trade for anything.",
-      "Here’s to another year of adventures, growth, and all the things that make life feel meaningful.",
-      "May this year bring you endless joy, new adventures, unexpected blessings, and moments that take your breath away. May you find strength in challenges, wisdom in experiences, and peace in knowing that you are truly special.",
-      "Thank you for being you. Thank you for the light you bring into our lives. Thank you for making the world a better place simply by existing in it."
-    ],
-    closing: "With all my love and warmest wishes,",
-    quote: "Another year older, another year wiser, another year more amazing."
-  },
-
   // Best Moments
   bestMoments: {
-    title: "Best Moments",
+    title: "Best moments",
     description: "A few of the moments that make your life worth celebrating",
     moments: [
       {
-        title: "First Smile",
-        description: "The moment that changed everything - your first smile that lit up the world",
+        title: "First smile",
+        description: "The moment that changed everything: your first smile that lit up the world",
         date: "23 Sept 1998"
       },
       {
-        title: "Parent's Embrace",
+        title: "Parent's embrace",
         description: "The warmth and love felt in a parent's embrace, a bond like no other",
         date: "Lifelong"
       },
@@ -127,15 +118,13 @@ export const siteConfig = {
 
   // Contact Page
   contact: {
-    title: "Get in touch",
-    description: "Share your birthday wishes and special messages",
+    title: "Leave a wish",
+    description: "Write something for Shreya. It appears on her wish wall once it has been read.",
     formPlaceholders: {
       name: "Your name",
-      email: "your@email.com",
       message: "Your birthday wishes"
     },
-    submitButtonText: "Send wishes",
-    successMessage: "Thank you, your wishes are on their way"
+    submitButtonText: "Send wish"
   },
 
   // Footer
@@ -146,4 +135,4 @@ export const siteConfig = {
 };
 
 // Export individual values for easier destructuring if needed
-export const { name, birthday, siteTitle, siteTagline, navBrand, navItems, hero, features, celebrate, loveLetter, bestMoments, contact, footer } = siteConfig;
+export const { name, birthday, siteTitle, siteTagline, navBrand, navItems, hero, features, celebrate, bestMoments, contact, footer } = siteConfig;

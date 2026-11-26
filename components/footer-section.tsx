@@ -1,11 +1,21 @@
-import { footer } from "@/lib/siteConfig"
+import Link from "next/link"
+import { footer, name, navItems } from "@/lib/siteConfig"
 
 export default function FooterSection() {
   return (
-    <footer className="border-t border-ink/8 px-6 py-12 md:px-8">
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 text-sm md:flex-row md:justify-between">
-        <p className="text-ink-2">{footer.message}</p>
-        <p className="text-ink-3">{footer.creator}</p>
+    <footer className="footer container">
+      <p className="footer__mark">{name.first}</p>
+      <nav aria-label="Footer" className="footer__links">
+        {navItems.map((item) => (
+          <Link key={item.href} href={item.href}>
+            {item.label}
+          </Link>
+        ))}
+        <Link href="/invite">Invite someone</Link>
+      </nav>
+      <div className="footer__base">
+        <p>{footer.message}</p>
+        <p>{footer.creator}</p>
       </div>
     </footer>
   )

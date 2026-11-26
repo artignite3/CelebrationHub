@@ -1,185 +1,77 @@
-# 🎉 CelebrationHub: A Customizable Celebration Website Template
+# CelebrationHub
 
-A beautiful, interactive celebration website template perfect for birthdays, anniversaries, and special occasions. Built with Next.js, Tailwind CSS, and GSAP, this template features animations, music, photo galleries, and heartfelt messages to create memorable digital experiences.
+A birthday website you make for one person: their photographs in a 3D dome, a letter that stays sealed until the day, a wish wall their friends write to, and an invite you can share on WhatsApp.
 
-![Celebration Website Preview](public/data/pic/website.png) <!-- You can add an OG image -->
+![Preview](public/data/pic/website.png)
 
-## ✨ Features
+## What it does
 
-- **🎵 Background Music**: Play celebration music throughout the experience
-- **🎨 Interactive 3D Gallery**: Explore memories in a beautiful 3D dome gallery with drag-to-rotate functionality
-- **🎉 Celebration Page**: Animated celebration elements (cake, confetti, fireworks, etc.)
-- **💌 Personal Messages**: Customizable heartfelt message section (love letter, anniversary note, etc.)
-- **🏆 Highlights Section**: Showcase special moments, milestones, and achievements in beautiful cards
-- **💌 Contact Form**: Allow visitors to send messages, wishes, or RSVPs
-- **✨ Smooth Animations**: Powered by GSAP (GreenSock Animation Platform) for fluid, engaging animations
-- **📱 Fully Responsive**: Looks great on all devices from mobile to desktop
-- **⚙️ Easy Customization**: Centralized configuration via `siteConfig.ts` - no need to touch component code
+- **Photographs** in a drag-to-turn 3D dome, served resized so the page stays light on a phone
+- **A letter** that opens at midnight on the birthday, in their timezone, with a countdown before
+- **A wish wall** where guests leave a message and a photo; you approve each one before it appears
+- **Celebrate** page with music and paper confetti
+- **Best moments**, a short ruled list of the moments worth keeping
+- **An invite page** with its own share card
 
-## 🛠️ Tech Stack
+## Stack
 
-- **Framework**: [Next.js 13](https://nextjs.org) (App Router)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com)
-- **Animations**: [GSAP (GreenSock Animation Platform)](https://greensock.com/gsap/)
-- **3D Graphics**: Custom 3D dome implementation using [OGL](https://github.com/oframe/ogl)
-- **Icons**: [Lucide React](https://lucide.dev)
-- **Icons**: [Lucide React](https://lucide.dev)
-- **Testing**: Jest & React Testing Library
-- **Language**: TypeScript
+Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · Upstash Redis (REST) · Vercel Blob · Jest and Testing Library · TypeScript
 
-## 🛠️ How to Customize
-
-All customizable content is located in `/lib/siteConfig.ts`. Simply update the values in this file to personalize the site for your occasion:
-
-1. **Personal Information**: Names, nicknames, event details
-2. **Event Information**: Date, title, tagline
-3. **Navigation**: Adjust links and labels
-4. **Sections**: Hero, features, celebration, love letter, highlights, contact, footer
-5. **Media**: Replace images in `/public/data/pic/` and music in `/public/data/music/`
-6. **Colors & Styles**: Modify Tailwind configuration or component styles as needed
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Installation
+## Getting started
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/celebrationhub.git
-cd celebrationhub
-
-# Install dependencies
 npm install
-# or
-yarn install
+cp .env.example .env.local   # optional: the site runs without it
+npm run dev                  # http://localhost:3000
 ```
 
-### Development
+Without the environment variables, everything works except the wish wall, which stays hidden while the form says it is not connected.
 
-```bash
-# Start development server
-npm run dev
-# or
-yarn dev
+## Make it yours
 
-# Open http://localhost:3000 in your browser
+| What | Where |
+| --- | --- |
+| Names, dates, navigation, every line of copy | `lib/siteConfig.ts` |
+| The letter | `lib/letter.ts` (kept apart so it never ships before the day) |
+| When the letter opens | `birthday.unlockISO` and `birthday.utcOffset` in `lib/siteConfig.ts` |
+| Photographs | `public/data/pic/1.jpg` to `23.jpg`, same names |
+| Music | `public/data/music/1.mp3` |
+| Colours, type, spacing | `app/tokens.css` (one set of tokens) and `app/globals.css` |
+
+## Turning on the wish wall
+
+1. In Vercel, open the project, then **Storage**:
+   - add **Upstash for Redis** from the Marketplace, which sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`;
+   - create a **Blob** store, which sets `BLOB_READ_WRITE_TOKEN`.
+2. Add `ADMIN_TOKEN` in **Settings > Environment Variables**: 24 characters or more, for example the output of `openssl rand -base64 32`.
+3. Redeploy. Wishes appear in `/admin`; open it, paste your key, and put each one on the wall.
+
+## Scripts
+
+| Command | Does |
+| --- | --- |
+| `npm run dev` | development server |
+| `npm run build` | production build |
+| `npm start` | serve the build |
+| `npm run lint` | ESLint |
+| `npm test` | Jest (unit and API route tests) |
+
+## Project structure
+
+```
+app/
+  page.tsx                 home: index of the gift, the dome, the letter, the wish wall
+  celebrate/ best-moments/ contact/ love-letter/ invite/ admin/
+  api/wishes/              public: send a wish, read the wall
+  api/admin/wishes/        owner: list, approve, delete
+  tokens.css base.css globals.css
+components/                sections and pieces (print, wish-wall, countdown, dome-gallery …)
+lib/
+  siteConfig.ts            all copy and settings
+  letter.ts                the letter, server only
+  birthday.ts              unlock time and countdown
+  wishes.ts redis.ts       validation, rate limits and storage
+docs/ARCHITECTURE.md       how it fits together, and the security model
 ```
 
-### Production Build
-
-```bash
-# Build for production
-npm run build
-# or
-yarn build
-
-# Start production server
-npm start
-# or
-yarn start
-```
-
-## 📁 Project Structure
-
-```
-celebrationhub/
-├── app/                    # Next.js 13 app router (pages)
-├── components/             # Reusable React components
-├── lib/                    # Configuration and utility functions
-│   ├── siteConfig.ts       # Main configuration file (customize here)
-│   ├── dateUtils.ts        # Date formatting utilities
-│   └── utils.ts            # Utility functions
-├── public/                 # Static assets
-│   ├── data/               # Images and music
-│   └── ...                 # Other static files
-├── styles/                 # Global styles
-├── public/                 # Static assets served directly
-├── ...                     # Configuration files
-```
-
-## 🔧 Customization Guide
-
-### 1. Site Configuration (`lib/siteConfig.ts`)
-
-Edit the `siteConfig` object to change:
-- Names and personal information
-- Event title, date, and tagline
-- Navigation items and labels
-- Section titles, descriptions, and button texts
-- Celebration elements (gift boxes, achievement badges, etc.)
-- Love letter / message content
-- Highlights/milestones
-- Contact form placeholders and messages
-- Footer text
-
-### 2. Media Assets
-
-- **Images**: Replace files in `public/data/pic/` with your own images (keep same naming convention or update references in gallery components)
-- **Music**: Replace audio files in `public/data/music/` (currently supports .mp3 format)
-
-### 3. Styling Adjustments
-
-- Tailwind configuration: `tailwind.config.ts` and `postcss.config.mjs`
-- Global styles: `app/globals.css`
-- Component-specific styles: Tailwind classes within components
-
-## 🖥️ Available Scripts
-
-In the project directory, you can run:
-
-- `npm run dev` / `yarn dev` - Starts development server at `http://localhost:3000`
-- `npm run build` / `yarn build` - Builds the application for production
-- `npm start` / `yarn start` - Runs the built application in production mode
-- `npm run lint` / `yarn lint` - Runs ESLint for code quality
-- `npm test` / `yarn test` - Runs Jest tests
-- `npm run test:watch` / `yarn test:watch` - Runs Jest in watch mode
-- `npm run test:coverage` / `yarn test:coverage` - Runs tests with coverage report
-
-## 📱 Responsive Design
-
-The website is fully responsive and adapts to:
-- Mobile phones (320px+ width)
-- Tablets (768px+ width)
-- Laptops (1024px+ width)
-- Desktop monitors (1440px+ width)
-
-All animations and interactions are optimized for smooth performance across devices.
-
-## 🤝 Contributing
-
-This template is meant to be forked and personalized for your specific celebrations. However, if you'd like to contribute to the base template:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 🎯 Perfect For
-
-- Birthday celebrations
-- Anniversary commemorations
-- Graduation parties
-- Retirement parties
-- Baby showers
-- Engagement announcements
-- Holiday celebrations
-- Any special occasion worth celebrating
-
-## 💖 Created With
-
-This template was built with:
-- [Next.js](https://nextjs.org) - The React framework
-- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
-- [GSAP](https://greensock.com/gsap/) - Professional-grade animation library
-- [OGL](https://github.com/oframe/ogl) - Lightweight WebGL wrapper
-- [Lucide Icons](https://lucide.dev) - Beautifully simple icons
-- And lots of ❤️ for creating joyful experiences
-
----
-
-*Make every celebration memorable with CelebrationHub - where technology meets joy.*
+How the pieces connect, the data model and the security controls are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).

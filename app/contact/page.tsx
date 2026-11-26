@@ -3,75 +3,115 @@
 import { useState } from "react"
 import Navigation from "@/components/navigation"
 import { contact } from "@/lib/siteConfig"
+import { shrinkPhoto } from "@/lib/shrink-photo"
 
-const field =
-  "w-full rounded-[10px] border border-ink/10 bg-raised px-4 py-3 text-[15px] text-ink placeholder:text-ink-3 transition-colors duration-150 ease-out-soft focus:border-flame focus:outline-none"
+type Field = "name" | "message" | "photo"
+type State = { kind: "idle" | "sending" | "sent" | "error"; text: string; field?: Field }
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" })
-  const [sent, setSent] = useState(false)
+  const [state, setState] = useState<State>({ kind: "idle", text: "" })
+  const [preview, setPreview] = useState<string | null>(null)
 
-  // shortcut: nothing is sent anywhere yet, the form only confirms locally; wire it to an email or form service to deliver wishes
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSent(true)
-    setFormData({ name: "", email: "", message: "" })
+  const onPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    setPreview((old) => {
+      if (old) URL.revokeObjectURL(old)
+      return file ? URL.createObjectURL(file) : null
+    })
   }
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    const data = new FormData(form)
+    setState({ kind: "sending", text: "Sending your wish" })
+
+    try {
+      const photo = data.get("photo")
+      if (photo instanceof File && photo.size > 0) {
+        data.set("photo", await shrinkPhoto(photo), "photo.jpg")
+      } else {
+        data.delete("photo")
+      }
+      const res = await fetch("/api/wishes", { method: "POST", body: data })
+      const body = (await res.json().catch(() => ({}))) as { error?: string; field?: Field }
+      if (!res.ok) {
+        setState({ kind: "error", text: body.error ?? "That did not go through. Try again in a minute.", field: body.field })
+        if (body.field) (form.elements.namedItem(body.field) as HTMLElement | null)?.focus()
+        return
+      }
+      form.reset()
+      setPreview((old) => {
+        if (old) URL.revokeObjectURL(old)
+        return null
+      })
+      setState({ kind: "sent", text: "Thank you. Your wish will appear on the wall once it has been read." })
+    } catch {
+      setState({ kind: "error", text: "That did not go through. Check your connection and try again." })
+    }
+  }
+
+  const invalid = (f: Field) => (state.kind === "error" && state.field === f ? true : undefined)
+
   return (
-    <div className="min-h-screen">
+    <>
       <Navigation />
 
-      <main className="mx-auto max-w-xl px-6 pt-32 pb-24 md:px-8 md:pt-40">
-        <h1 className="font-serif text-[44px] leading-[1.06] font-normal tracking-[-0.02em] md:text-[56px] md:tracking-[-0.03em]">
-          {contact.title}
-        </h1>
-        <p className="mt-4 text-lg leading-[30px] text-ink-2">{contact.description}</p>
+      <main className="hero container">
+        <div className="split split--text">
+          <div className="stack reveal">
+            <h1>{contact.title}</h1>
+            <p className="lead">{contact.description}</p>
+          </div>
 
-        <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-6">
-          <label className="flex flex-col gap-2 text-sm font-medium">
-            Name
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className={field}
-              placeholder={contact.formPlaceholders.name}
-              required
-            />
-          </label>
+          <form
+            onSubmit={handleSubmit}
+            className="form-card stock stock--framed reveal"
+            style={{ ["--i" as string]: 1 }}
+          >
+            <div className="field">
+              <label htmlFor="name">Name</label>
+              <input id="name" name="name" type="text" autoComplete="name" maxLength={60} required
+                placeholder={contact.formPlaceholders.name} aria-invalid={invalid("name")}
+                aria-describedby={invalid("name") ? "form-status" : undefined} />
+            </div>
 
-          <label className="flex flex-col gap-2 text-sm font-medium">
-            Email
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className={field}
-              placeholder={contact.formPlaceholders.email}
-              required
-            />
-          </label>
+            <div className="field">
+              <label htmlFor="message">Message</label>
+              <textarea id="message" name="message" maxLength={500} required
+                placeholder={contact.formPlaceholders.message} aria-invalid={invalid("message")}
+                aria-describedby={invalid("message") ? "form-status" : undefined} />
+            </div>
 
-          <label className="flex flex-col gap-2 text-sm font-medium">
-            Message
-            <textarea
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className={`${field} h-32 resize-none`}
-              placeholder={contact.formPlaceholders.message}
-              required
-            />
-          </label>
+            <div className="field">
+              <label htmlFor="photo">A photo, if you have one</label>
+              <input id="photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp"
+                onChange={onPhoto} className="file" aria-invalid={invalid("photo")}
+                aria-describedby={invalid("photo") ? "form-status" : "photo-help"} />
+              <p id="photo-help" className="small muted">JPEG, PNG or WebP. Resized on your phone before it is sent.</p>
+              {preview && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={preview} alt="The photo you chose" className="file-preview" />
+              )}
+            </div>
 
-          <button type="submit" className="btn-primary w-full">
-            {contact.submitButtonText}
-          </button>
-          <p role="status" className="min-h-5 text-sm text-ink-2">
-            {sent ? contact.successMessage : ""}
-          </p>
-        </form>
+            {/* A field only bots fill in */}
+            <div className="visually-hidden" aria-hidden="true">
+              <label htmlFor="website">Leave this empty</label>
+              <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
+
+            <div style={{ marginTop: "var(--space-xl)" }}>
+              <button type="submit" className="btn" disabled={state.kind === "sending"}>
+                {state.kind === "sending" ? "Sending" : contact.submitButtonText}
+              </button>
+              <p id="form-status" role="status" aria-live="polite" className={`form-help${state.kind === "error" ? " form-help--error" : ""}`}>
+                {state.text}
+              </p>
+            </div>
+          </form>
+        </div>
       </main>
-    </div>
+    </>
   )
 }

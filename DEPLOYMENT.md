@@ -4,7 +4,7 @@
 This document outlines the process for deploying the birthday application to production.
 
 ## Prerequisites
-- Node.js (v18 or later)
+- Node.js (v20.9 or later, required by Next.js 16)
 - npm (v9 or later)
 - Git
 - Access to production hosting environment
@@ -14,7 +14,7 @@ This document outlines the process for deploying the birthday application to pro
 ### 1. Environment Setup
 Ensure you have the required dependencies installed:
 ```bash
-node --version  # Should be v18+
+node --version  # Should be v20.9+
 npm --version   # Should be v9+
 ```
 
@@ -54,9 +54,13 @@ For self-hosted deployment:
 5. Use a process manager like PM2 for production reliability
 
 ## Environment Variables
-Required environment variables for production:
-- `NODE_ENV=production`
-- Any additional API keys or configuration values
+All optional; see `.env.example`. Without them the site deploys and the wish wall stays hidden.
+- `KV_REST_API_URL`, `KV_REST_API_TOKEN`: Upstash Redis for wishes (set by the Vercel Upstash integration)
+- `BLOB_READ_WRITE_TOKEN`: Vercel Blob for guest photos
+- `ADMIN_TOKEN`: your key for `/admin`, 24 characters or more
+- `RATE_LIMIT_SALT`, `NEXT_PUBLIC_SITE_URL`: optional
+
+There is no `vercel.json`: Vercel detects Next.js, and headers and redirects live in `next.config.mjs`.
 
 ## Performance Optimization
 The build includes several optimizations:
