@@ -60,7 +60,7 @@ describe('Navigation Component', () => {
 
   it('renders navigation brand', () => {
     render(<Navigation />);
-    const brandElement = screen.getByRole('link', { name: /🎂 Birthday/i });
+    const brandElement = screen.getByRole('link', { name: /Birthday/i });
     expect(brandElement).toBeInTheDocument();
   });
 

@@ -1,78 +1,70 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
+import Link from "next/link"
 import gsap from "gsap"
-import PrismaticBurst from "./prismatic-burst"
-import { name, hero } from "@/lib/siteConfig"
+import { name, hero, birthday } from "@/lib/siteConfig"
+
+// Three of her own photos, laid out like prints on a table
+const prints = [
+  { src: "/data/pic/1.jpg", className: "left-[4%] top-[12%] w-[52%] -rotate-6" },
+  { src: "/data/pic/7.jpg", className: "right-[2%] top-[2%] w-[46%] rotate-3" },
+  { src: "/data/pic/4.jpg", className: "left-[28%] bottom-[2%] w-[50%] rotate-[1.5deg]" },
+]
 
 export default function HeroSection() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const heroRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handler = (event) => {
-      setPrefersReducedMotion(event.matches)
-    }
-
-    mediaQuery.addEventListener('change', handler)
-    return () => mediaQuery.removeEventListener('change', handler)
+    if (!heroRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    gsap.fromTo(
+      heroRef.current.querySelectorAll("[data-rise]"),
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.05, ease: "power3.out" },
+    )
   }, [])
-
-  useEffect(() => {
-    if (heroRef.current && !prefersReducedMotion) {
-      gsap.fromTo(
-        heroRef.current.querySelector("h1"),
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
-      )
-      gsap.fromTo(
-        heroRef.current.querySelector("p"),
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 1, delay: 0.2, ease: "power3.out" },
-      )
-    }
-  }, [heroRef, prefersReducedMotion]);
 
   return (
     <section
       ref={heroRef}
       id="home"
-      aria-label="Hero section with birthday greeting and call to action"
-      className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-black via-blue-950 to-black pt-20"
+      aria-label="Birthday greeting"
+      className="mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-6 pt-28 pb-16 md:grid-cols-2 md:gap-16 md:px-8 md:pt-16 md:pb-0"
     >
-      <div className="absolute inset-0 z-0">
-        <PrismaticBurst
-          intensity={1.2}
-          speed={0.25}
-          animationType="rotate3d"
-          colors={["#0ea5e9", "#06b6d4", "#0891b2", "#1e40af"]}
-          distort={6}
-          rayCount={8}
-          mixBlendMode="screen"
-          aria-hidden="true"
-        />
+      <div>
+        <p data-rise className="mb-6 font-mono text-[13px] text-ink-3">
+          {birthday.date.replace(/\s\d{4}$/, "")}
+        </p>
+        <h1
+          data-rise
+          className="font-serif text-[44px] leading-[1.04] font-normal tracking-[-0.02em] text-balance md:text-[72px] md:tracking-[-0.03em]"
+        >
+          {hero.greeting},<br />
+          <span className="text-flame">{name.first}</span>
+        </h1>
+        <p data-rise className="mt-6 max-w-[36rem] text-lg leading-[30px] text-ink-2">
+          {hero.celebrationMessage}
+        </p>
+        <div data-rise className="mt-10 flex flex-wrap gap-3">
+          <a href="#gallery" className="btn-primary">
+            {hero.exploreButtonText}
+          </a>
+          <Link href="/love-letter" className="btn-secondary">
+            {hero.letterButtonText}
+          </Link>
+        </div>
       </div>
 
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <div className="mb-6 inline-block text-6xl" aria-hidden="true">🎉</div>
-        <h1 className="text-7xl md:text-8xl font-bold text-white mb-4 text-balance">
-          {hero.greeting} <span className="text-cyan-400">Birthday {""}</span>
-          <span className="bg-gradient-to-r from-red-400 via-orange-300 to-red-500 text-transparent bg-clip-text">
-              {name.first}!
-            </span>
-        </h1>
-        <p className="text-2xl md:text-3xl text-blue-200 mb-8 text-balance font-light">
-          {hero.celebrationMessage}{" "}
-        </p>
-        <a
-          href="#gallery"
-          className="inline-block px-8 py-4 bg-cyan-500 hover:bg-cyan-600 text-black font-bold rounded-lg transition-all duration-300 transform hover:scale-105 text-lg"
-        >
-          {hero.exploreButtonText}
-        </a>
+      <div data-rise className="relative mx-auto aspect-[5/4] w-full max-w-[560px]" aria-hidden="true">
+        {prints.map((p) => (
+          <div
+            key={p.src}
+            className={`absolute rounded-[4px] bg-paper p-2 pb-8 shadow-[0_16px_40px_rgba(0,0,0,0.45)] ${p.className}`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={p.src} alt="" className="aspect-[4/5] w-full rounded-[2px] object-cover" />
+          </div>
+        ))}
       </div>
     </section>
   )

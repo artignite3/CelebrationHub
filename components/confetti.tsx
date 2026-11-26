@@ -1,7 +1,9 @@
-// ...existing code...
 "use client"
 
 import { useEffect } from "react"
+
+// Party paper in the site palette: flame, cream, rose, sage
+const COLORS = ["#f0a848", "#f4ecdc", "#d98a7a", "#9fb08f"]
 
 export default function Confetti({
   duration = 8000, // milliseconds the confetti should last (default increased)
@@ -11,6 +13,7 @@ export default function Confetti({
   particleCount?: number
 }) {
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
     const canvas = document.createElement("canvas")
     canvas.style.position = "fixed"
     canvas.style.top = "0"
@@ -39,13 +42,13 @@ export default function Confetti({
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height - canvas.height * 0.5,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight * -0.5,
         vx: (Math.random() - 0.5) * 4,
         vy: Math.random() * 3 + 1,
         life: (0.8 + Math.random() * 0.8), // normalized life (will decay by decayPerFrame)
-        size: 12 + Math.random() * 12,
-        emoji: ["🎉", "🎊", "🎈", "🎁", "⭐"][Math.floor(Math.random() * 5)],
+        size: 6 + Math.random() * 6,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
         tilt: Math.random() * Math.PI * 2,
         spin: (Math.random() - 0.5) * 0.2,
       })
@@ -69,8 +72,13 @@ export default function Confetti({
           particles.splice(i, 1)
         } else {
           ctx.globalAlpha = Math.max(0, Math.min(1, p.life))
-          ctx.font = `${p.size}px Arial`
-          ctx.fillText(p.emoji, p.x, p.y)
+          // a paper strip that turns over as it falls
+          ctx.save()
+          ctx.translate(p.x, p.y)
+          ctx.rotate(p.tilt)
+          ctx.fillStyle = p.color
+          ctx.fillRect(-p.size / 2, -p.size / 4, p.size, (p.size / 2) * Math.abs(Math.cos(p.tilt * 2)) + 1)
+          ctx.restore()
         }
       }
 
@@ -97,4 +105,3 @@ export default function Confetti({
 
   return null
 }
-// ...existing code...
